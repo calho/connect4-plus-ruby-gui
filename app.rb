@@ -6,7 +6,7 @@ class App
 	def initialize
 		Gtk.init
         @builder = Gtk::Builder::new
-        @builder.add_from_file("window2.glade")
+        @builder.add_from_file("GameBoard.glade")
 
 
         window = @builder.get_object("window")
