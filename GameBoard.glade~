@@ -4,7 +4,7 @@
   <requires lib="gtk+" version="3.6"/>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
-    <property name="window_position">center</property>
+    <property name="window_position">mouse</property>
     <child>
       <object class="GtkGrid" id="connect4grid">
         <property name="visible">True</property>
