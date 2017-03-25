@@ -10,10 +10,11 @@ class App
 
 
         window = @builder.get_object("window")
-        #window.signal_connect("destroy") { Gtk.main_quit }
+        window.signal_connect("destroy") { Gtk.main_quit }
         window.show()
         Gtk.main()
 
+        
 	end
 
 
