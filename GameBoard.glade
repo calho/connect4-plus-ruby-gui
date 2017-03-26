@@ -18,6 +18,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="relief">none</property>
+            <property name="focus_on_click">False</property>
             <property name="xalign">0.44999998807907104</property>
           </object>
           <packing>
@@ -33,6 +34,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="relief">none</property>
+            <property name="focus_on_click">False</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
@@ -47,6 +49,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="relief">none</property>
+            <property name="focus_on_click">False</property>
           </object>
           <packing>
             <property name="left_attach">2</property>
@@ -61,6 +64,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="relief">none</property>
+            <property name="focus_on_click">False</property>
           </object>
           <packing>
             <property name="left_attach">3</property>
@@ -75,6 +79,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="relief">none</property>
+            <property name="focus_on_click">False</property>
           </object>
           <packing>
             <property name="left_attach">4</property>
@@ -89,6 +94,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="relief">none</property>
+            <property name="focus_on_click">False</property>
           </object>
           <packing>
             <property name="left_attach">5</property>
@@ -99,10 +105,13 @@
         </child>
         <child>
           <object class="GtkButton" id="button6">
+            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="relief">none</property>
+            <property name="focus_on_click">False</property>
+            <property name="yalign">0.52999997138977051</property>
           </object>
           <packing>
             <property name="left_attach">6</property>
