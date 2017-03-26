@@ -66,9 +66,9 @@ class BoardModel
 	def check_for_winner(player)
 		win_pattern=player.get_win_pattern
 		if horizontal_score_iterator(win_pattern) || vertical_score_iterator(win_pattern) || diagonal_right_check(win_pattern) || diagonal_left_check(win_pattern)
-			p "hello there"
+			return true
 		end
-
+		return false
 	end
 
 	def horizontal_score_iterator(win_pattern)

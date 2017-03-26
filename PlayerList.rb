@@ -1,10 +1,11 @@
 
+
 class PlayerList
 
 	def initialize(player_object1,player_object2)
-		@player_array = Array.new(2)
-		@player_array.append(player_object1)
-		@player_array.append(player_object2)
+		@player_array = Array.new
+		@player_array.push(player_object1)
+		@player_array.push(player_object2)
 	end
 
 
@@ -14,6 +15,10 @@ class PlayerList
 				return player
 			end
 		end
+	end
+
+	def get_list
+		return @player_array
 	end
 
 	
