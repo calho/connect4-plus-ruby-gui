@@ -78,6 +78,7 @@ class AI
 			end
 		end
 
+
 		return score_hash
 	end
 
