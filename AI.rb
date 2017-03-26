@@ -6,7 +6,7 @@ class AI
 	end
 
 	def compute_score(board_array, player_id)
-		
+
 
 	end
 
@@ -21,42 +21,42 @@ class AI
 			row=(direction)? row : row.reverse
 			p row
 			row.each_with_index do |column, column_index|
-
-				if board_array[row_index][column_index] != 0
+				c_index=(direction)? column_index : 6 - column_index
+				if board_array[row_index][c_index] != 0
 					found_piece = true
 				end
 
-				if player_id == board_array[row_index][column_index] && player_self == true
+				if player_id == board_array[row_index][c_index] && player_self == true
 					score_counter=score_counter+1
 
 				end
 
-				if player_id == board_array[row_index][column_index] && player_self == false
+				if player_id == board_array[row_index][c_index] && player_self == false
 					score_counter = 0
 					player_self = true
 
 				end
 
-				if enemy_id == board_array[row_index][column_index] && player_self == true
+				if enemy_id == board_array[row_index][c_index] && player_self == true
 					score_counter = 0
 					player_self = false
 
 				end
 
 
-				if enemy_id == board_array[row_index][column_index] && player_self == false
+				if enemy_id == board_array[row_index][c_index] && player_self == false
 					score_counter=score_counter+1
 				end
 
-				if board_array[row_index][column_index] == 0 && found_piece
-					p board_array[row_index][column_index]
+				if board_array[row_index][c_index] == 0 && found_piece
+					p board_array[row_index][c_index]
 					id =(player_self)? player_id : enemy_id
 					if score_counter == 0
 						score_counter=1
 					end
 					score = score_counter*10 +((player_self)? 5 : 0)
 					p id
-					score_hash[[row_index,]]=[id,score]
+					score_hash[[row_index,c_index]]=[id,score]
 					found_piece = false
 				end
 
@@ -68,8 +68,17 @@ class AI
 
 
 
-	def compute_vertical_score
+	def compute_vertical_score(board_array, player_id, enemy_id)
+		# gravity makes this nice
+		score_hash = Hash.new
 
+		for column_index in 0..board_array[0].length-1
+			board_array.each_with_index do |row , row_index|
+				p board_array[row_index][column_index]
+			end
+		end
+
+		return score_hash
 	end
 
 	def compute_left_diagonal_score
@@ -86,7 +95,6 @@ ai = AI.new
 board_array = Array.new(6){Array.new(7,0)}
 board_array[0][0] = 2
 board_array[0][1] = 1
-
-p ai.compute_horizontal_score(board_array,1,2,false)
-
-
+board_array[0][6] = 2
+board_array[1][0] = 1
+p ai.compute_horizontal_score(board_array,1,2,true)
