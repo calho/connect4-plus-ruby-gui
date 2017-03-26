@@ -46,6 +46,10 @@ class GameManager
 		@board_model.get_array
 	end
 
+	def get_last_player_id
+		@last_player_id
+	end
+
 
 	def turn(button_id)
 		# p @player_list.class
@@ -61,7 +65,7 @@ class GameManager
 
 	def check_winner()
 		if @board_model.check_for_winner(@player_list[@last_player_id-1])
-			return true
+			return @last_player_id
 		end
 		return false
 	end
