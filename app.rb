@@ -50,6 +50,15 @@ class App
         	generate_yellow_token.call
         end
 
+        @array_of_board_pieces = Array.new
+        generate_board_piece = Proc.new{ board_piece = Gtk::Image.new("board_piece.png") 
+        	@array_of_board_pieces << board_piece
+        	}
+
+        for i in 0..42
+        	generate_board_piece.call
+        end
+
 
         # @red_token = Gtk::Image.new("red_token.png")
         # @red_token1 = Gtk::Image.new("red_token.png")
@@ -61,6 +70,7 @@ class App
         add_button_to_array = Proc.new{|button| @array_of_buttons << button}
         set_button_function = Proc.new{ |i| button = @builder.get_object("button#{i}")
         	add_button_to_array.call(button)
+        	button.image = @array_of_board_pieces[i]
         	button.signal_connect("clicked") do
          	puts "#{i}"
      		@board_status[i] = 1
