@@ -145,8 +145,25 @@ board_array[0][6] = 1
 board_array[0][2] = 2
 board_array[1][2] = 1
 
-
-
+# case mode
+# when #hard
+# 	# do best move
+# 	return
+# when #medium
+# 	if rand > 0.2
+# 		# do best move
+# 		return
+# 	end
+# 	# do second best
+# 	return
+# when #easy
+# 	if rand > 0.5
+# 		# do best move
+# 		return
+# 	end
+# 	# second
+# 	return
+# end
 puts format_board(board_array)
 puts
 # p compute_vertical_score(board_array,player1)
