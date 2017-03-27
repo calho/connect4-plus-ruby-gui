@@ -53,10 +53,11 @@ class BoardModel
 	end
 
 	def clear
-
+		pre_clear(@board_array)
 		@board_array = Array.new(6){Array.new(7,0)}
 		changed
 		notify_observers(Time.now)
+		post_clear(@board_array)
 	end
 
 
@@ -72,6 +73,7 @@ class BoardModel
 	# end
 
 	def check_for_winner(player)
+		pre_check_for_winner(player)
 		win_pattern=player.get_win_pattern
 		if horizontal_score_iterator(win_pattern) || vertical_score_iterator(win_pattern) || diagonal_right_check(win_pattern) || diagonal_left_check(win_pattern)
 			return true

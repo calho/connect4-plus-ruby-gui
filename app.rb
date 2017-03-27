@@ -57,12 +57,18 @@ class App
             go_to_menu
         end
 
-        side_button1 = @builder.get_object("button42")
-        side_button2 = @builder.get_object("button43")
-        side_button3 = @builder.get_object("button44")
+
+        sidebar_bg = Gdk::RGBA::new(200.0/255.0,197.0/255.0,190.0/255.0,1.0)
+        sidebar1 = @builder.get_object("sidebar1")
+        sidebar1.override_background_color(0, sidebar_bg )
+        sidebar2 = @builder.get_object("sidebar2")
+        sidebar2.override_background_color(0, sidebar_bg )
+        sidebar3 = @builder.get_object("sidebar3")
+        sidebar3.override_background_color(0, sidebar_bg )
 
         @player_turn = @builder.get_object("player turn")
         @player_turn.label=("player1's turn")
+        @player_turn.override_background_color(0, sidebar_bg )
 
         @original = @builder.get_object("original").set_active(true)
         @ottoToot = @builder.get_object("OTTO&TOOT").set_active(false)
@@ -195,7 +201,7 @@ class App
 
     def run
         
-        # if @original.active?
+        if @original.active?
             if @twoP.active?
                 if @game_mode == "original"
                     player1 = Player.new(1,"jayfeather",[1,1,1,1])
@@ -207,8 +213,14 @@ class App
                 @playerList = PlayerList.new(player1,player2)
                 p @playerList.get_list
             end
+        # elsif @twoP.active?
+        #     menu = Gtk::Menu.new
+        #     menu.append(Gtk::MenuItem.new("Test1"))
+        #     menu.append(Gtk::MenuItem.new("Test2"))
 
-        # end
+        #     menu.show_all
+
+        end
 
         @board_model = BoardModel.new()
         @board_model.add_observer(self)
