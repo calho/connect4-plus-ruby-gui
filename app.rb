@@ -194,26 +194,40 @@ class App
 
 
     def run
-        
-        # if @original.active?
-            if @twoP.active?
-                if @game_mode == "original"
-                    player1 = Player.new(1,"jayfeather",[1,1,1,1])
-                    player2 = Player.new(2,"shade",[2,2,2,2])
-                elsif @game_mode == "OTTO&TOOT"
-                    player1 = Player.new(1,"jayfeather",[1,2,2,1])
-                    player2 = Player.new(2,"shade",[2,1,1,2])
-                end
-                @playerList = PlayerList.new(player1,player2)
-                p @playerList.get_list
-            end
 
-        # end
 
         @board_model = BoardModel.new()
         @board_model.add_observer(self)
         @game_manager  = GameManager.new
-        @game_type = "normal"
+        
+        # if @original.active?
+        if @twoP.active?
+            if @game_mode == "original"
+                player1 = Player.new(1,"jayfeather",[1,1,1,1])
+                player2 = Player.new(2,"shade",[2,2,2,2])
+            elsif @game_mode == "OTTO&TOOT"
+                player1 = Player.new(1,"jayfeather",[1,2,2,1])
+                player2 = Player.new(2,"shade",[2,1,1,2])
+            end
+
+        end
+
+        if @singleP.active?
+            if @game_mode == "original"
+                player1=Player.new(1,"jayfeather",[1,1,1,1])
+                player2=Player.new([2,2,2,2])
+            elsif @game_mode == "OTTO&TOOT"
+                player1 = Player.new(1,"shade",[1,2,2,1])
+                player2=Player.new([2,1,1,2])
+            end
+            # should take in difficulty level HARDCODED FOR NOW      
+            ai = AI.new(1)
+            @game_manager.set_ai(ai)
+        end
+        @playerList = PlayerList.new(player1,player2)
+        p @playerList.get_list
+
+        # end
 
         @game_manager.set_player_list(@playerList)
         @game_manager.set_board_model(@board_model)
@@ -224,11 +238,18 @@ class App
 
     def turn_front_end(button_id)
 
-        @game_manager.turn(button_id)
+        if @twoP.active?
+            @game_manager.turn(button_id)
+        else
+            @game_manager.turn(button_id)
+            update_board()
+            @game_manage.AI_play()
+        end
         update_board()
         puts button_id
 
     end
+
 
     def go_to_menu
         if block_given?
