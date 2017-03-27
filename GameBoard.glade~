@@ -615,8 +615,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <attributes>
-              <attribute name="foreground" value="#bababdbdb6b6"/>
-              <attribute name="size" value="500"/>
+              <attribute name="background" value="#bababdbdb6b6"/>
             </attributes>
           </object>
           <packing>
@@ -660,6 +659,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="relief">none</property>
           </object>
           <packing>
             <property name="left_attach">7</property>
@@ -674,6 +674,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="relief">none</property>
           </object>
           <packing>
             <property name="left_attach">7</property>
@@ -688,6 +689,7 @@
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="relief">none</property>
           </object>
           <packing>
             <property name="left_attach">7</property>
