@@ -4,6 +4,7 @@ require_relative 'BoardController'
 require_relative 'Player'
 require_relative 'PlayerList'
 require_relative 'GameManager'
+require_relative 'AI'
 class App
 
 
@@ -248,7 +249,7 @@ class App
         else
             @game_manager.turn(button_id)
             update_board()
-            @game_manage.AI_play()
+            @game_manager.AI_play()
         end
         update_board()
         puts button_id

@@ -34,8 +34,12 @@ class BoardModel
 		column = button_id%7
 		old_column_checksum = @board_array.transpose[column].inject(0){|sum,x| sum + x }
 		begin
+			p "beforeeeeee"
 			pre_add_piece(player_id, button_id, @board_array)
+			p "player id"
+			p player_id
 			@board_array.each do |row|
+				p row[column]
 				if row[column]==0
 					row[column]=player_id
 					changed
@@ -46,6 +50,7 @@ class BoardModel
 			end
 		rescue
 			post_add_piece{old_column_checksum == @board_array.transpose[column].inject(0){|sum,x| sum + x }}
+			p "its false"
 			return false
 		end
 
