@@ -23,21 +23,6 @@ class App
         @window.signal_connect("destroy") { Gtk.main_quit }
         @connect4grid = @builder.get_object("connect4grid")
 
-        # background = Gtk::Image.new :file => "board.png"
-
-        # @connect4grid.image = background
-
-        # @game_over_dialog = Gtk::MessageDialog.new(:parent => nil, :flags => :destroy_with_parent,
-        #                     :type => nil, :buttons_type => "Restart", :buttons_type => "Menu" 
-        #                     :message => "Game Over")
-
-        # @game_over_dialog = @builder.get_object("game over dialog")
-
-        # game_over_dialog.signal_connect("response") {dialog.destroy}
-        # game_over_dialog.vbox.add(@builder.get_object("Message"))
-        # dialog.show_all
-
-
 		@window.set_default_size(798, 690)        
 
         @startMenu.show()
@@ -77,8 +62,8 @@ class App
      
         @builder.get_object("Start").signal_connect("clicked") do 
         	if (@singleP.active? or @twoP.active?)
-        		@startMenu.hide
-        		@window.show
+        		# @startMenu.hide
+        		# @window.show
                 if (@original.active?)
                     @game_mode = "original"
                 elsif @ottoToot.active?
@@ -214,10 +199,21 @@ class App
                 player1 = Player.new(1,"jayfeather",[1,2,2,1])
                 player2 = Player.new(2,"shade",[2,1,1,2])
             end
+            @startMenu.hide
+            @window.show
 
-        end
+            @playerList = PlayerList.new(player1,player2)
+            p @playerList.get_list
 
-        if @singleP.active?
+            # end
+
+            @game_manager.set_player_list(@playerList)
+            @game_manager.set_board_model(@board_model)
+            @game_manager.set_game_type(@game_type)
+        
+        elsif @singleP.active?
+            @level = 0
+            create_ai_menu
             if @game_mode == "original"
                 player1=Player.new(1,"jayfeather",[1,1,1,1])
                 player2=Player.new([2,2,2,2])
@@ -226,17 +222,25 @@ class App
                 player2=Player.new([2,1,1,2])
             end
             # should take in difficulty level HARDCODED FOR NOW      
-            ai = AI.new(1)
-            @game_manager.set_ai(ai)
+            # ai = AI.new(@level)
+            # @game_manager.set_ai(ai)
+
+            @playerList = PlayerList.new(player1,player2)
+            p @playerList.get_list
+
+            # end
+
+            @game_manager.set_player_list(@playerList)
+            @game_manager.set_board_model(@board_model)
+            @game_manager.set_game_type(@game_type)
+
+            p @level
+            if @level != 0
+                @startMenu.hide
+                @window.show
+            end
         end
-        @playerList = PlayerList.new(player1,player2)
-        p @playerList.get_list
 
-        # end
-
-        @game_manager.set_player_list(@playerList)
-        @game_manager.set_board_model(@board_model)
-        @game_manager.set_game_type(@game_type)
 
 
     end
@@ -267,6 +271,46 @@ class App
         @connect4grid.sensitive=(true)
     end
 
+    def create_ai_menu()
+
+        ai_menu = Gtk::Dialog.new
+        ai_menu.set_default_size(300,100)
+        ai_menu.title = "ai menu"
+        ai_menu.transient_for = @startMenu
+        ai_menu.resizable=(false)
+        label = Gtk::Label.new("please select difficulty")
+        ai_menu.child.add(label)
+
+        
+
+        button_reaction = Proc.new{ |level|
+            @level = level
+            ai_menu.hide
+            p @level
+        }
+
+
+        ai_menu.add_button "easy", 1
+        ai_menu.add_button "medium", 2
+        ai_menu.add_button "hard", 3
+
+        ai_menu.signal_connect("response") do |widget, response|
+            case response
+            when 1
+                button_reaction.call(response)
+            when 2
+                button_reaction.call(response)
+            when 3
+                button_reaction.call(response)
+            end
+        end
+
+        ai_menu.set_window_position :center
+        ai_menu.show_all 
+        ai_menu.run
+
+    end
+
     def game_over_window(player)
         message =  "Game Over, Player#{player} Won!"
         dialog = Gtk::Dialog.new
@@ -295,6 +339,7 @@ class App
         end
         @connect4grid.sensitive=(false)
         dialog.show_all
+        dialog.run
     end
 
     def update(time)        
