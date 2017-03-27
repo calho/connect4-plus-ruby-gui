@@ -227,7 +227,7 @@ class App
                 player2=Player.new([2,1,1,2])
             end
             # should take in difficulty level HARDCODED FOR NOW      
-            ai = AI.new(1)
+            ai = AI.new(3)
             @game_manager.set_ai(ai)
         end
         @playerList = PlayerList.new(player1,player2)
@@ -296,6 +296,7 @@ class App
         end
         @connect4grid.sensitive=(false)
         dialog.show_all
+
     end
 
     def update(time)        

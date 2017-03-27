@@ -35,13 +35,13 @@ class AI
 		hash7=compute_diagonal_score(board_array,player,false,false)
 		totalHash=Hash.new
 
-		totalHash=totalHash.merge(hash1){|k,v1,v2| v1+v2+5}
-		totalHash=totalHash.merge(hash2){|k,v1,v2| v1+v2+5}
-		totalHash=totalHash.merge(hash3){|k,v1,v2| v1+v2+5}
-		totalHash=totalHash.merge(hash4){|k,v1,v2| v1+v2+5}
-		totalHash=totalHash.merge(hash5){|k,v1,v2| v1+v2+5}
-		totalHash=totalHash.merge(hash6){|k,v1,v2| v1+v2+5}
-		totalHash=totalHash.merge(hash7){|k,v1,v2| v1+v2+5}
+		totalHash=totalHash.merge(hash1){|k,v1,v2| v1+v2+21}
+		totalHash=totalHash.merge(hash2){|k,v1,v2| v1+v2+21}
+		totalHash=totalHash.merge(hash3){|k,v1,v2| v1+v2+21}
+		totalHash=totalHash.merge(hash4){|k,v1,v2| v1+v2+21}
+		totalHash=totalHash.merge(hash5){|k,v1,v2| v1+v2+21}
+		totalHash=totalHash.merge(hash6){|k,v1,v2| v1+v2+21}
+		totalHash=totalHash.merge(hash7){|k,v1,v2| v1+v2+21}
 		return totalHash
 	end
 
@@ -69,8 +69,9 @@ class AI
 	def get_position(board_array,player,enemy)
 
 		my_hash = compute_my_scores(board_array,player)
+		p "player",player.get_id
 		enemy_hash = compute_enemy_scores(board_array,enemy)
-
+		p "enemy",enemy.get_id
 		totalHash= my_hash.merge(enemy_hash){|k,v1,v2| v1+v2}
 		p totalHash
 		best_move_key,best_move_value=totalHash.max_by{|k,v| v}
