@@ -119,22 +119,19 @@ def compute_right_diagonal_up_score(board_array,player)
 end
 
 def compute_diagonal_up_score(board_array,player,direction)
-	p "here"
 	player_pattern = player.get_win_pattern
 	player_id = player.get_id
 	score_hash = Hash.new
 
-
 	for row_index in 0..board_array.length-1
-		column_array=(direction)? [*(board_array[0].length-1..0)] : [*(0..board_array[0].length-1)]
-		p column_array
+		column_array=(direction)? [*(0..board_array[0].length-1)] : [*(0..board_array[0].length-1)].reverse
 		for column_index in column_array
 			temp_row_index=row_index
-			temp_column_index=(direction)? column_index : 6 - column_index
+			temp_column_index=column_index
 			score_counter = 0
 			found_piece = false
-			p !(temp_column_index >= board_array[0].length || temp_row_index >= board_array.length)||(temp_column_index<0)||(temp_row_index<0)
-			while (!(temp_column_index >= board_array[0].length || temp_row_index >= board_array.length)||(temp_column_index<0)||(temp_row_index<0))
+
+			while (!(temp_column_index >= board_array[0].length || temp_row_index >= board_array.length||temp_column_index<0||temp_row_index<0))
 				board_value=board_array[temp_row_index][temp_column_index]
 
 				if player_pattern[score_counter]==board_value
@@ -162,14 +159,69 @@ def compute_diagonal_up_score(board_array,player,direction)
 				else
 					temp_column_index=temp_column_index-1
 				end
-
-
 			end
 		end
 	end
 
 	return score_hash
 end
+
+def compute_diagonal_score(board_array,player,direction1,direction2)
+	player_pattern = player.get_win_pattern
+	player_id = player.get_id
+	score_hash = Hash.new
+
+	player_pattern = player.get_win_pattern
+	player_id = player.get_id
+	score_hash = Hash.new
+	row_array = (direction2)? [*0..board_array.length-1] : [*0..board_array.length-1].reverse
+	for row_index in 0..board_array.length-1
+		column_array=(direction1)? [*(0..board_array[0].length-1)] : [*(0..board_array[0].length-1)].reverse
+		for column_index in column_array
+			temp_row_index=row_index
+			temp_column_index=column_index
+			score_counter = 0
+			found_piece = false
+
+			while (!(temp_column_index >= board_array[0].length || temp_row_index >= board_array.length||temp_column_index<0||temp_row_index<0))
+				board_value=board_array[temp_row_index][temp_column_index]
+
+				if player_pattern[score_counter]==board_value
+					score_counter=score_counter+1
+					found_piece = true
+				elsif board_array[temp_row_index][temp_column_index] != 0
+					found_piece = false
+					score_counter=0
+				end
+
+				if board_array[temp_row_index][temp_column_index] == 0 && found_piece
+					if score_counter == 0
+						score_counter=1
+					end
+					score = score_counter*10
+					if !score_hash.key?([temp_row_index,temp_column_index]) 	|| score_hash[[temp_row_index,temp_column_index]][1]<score
+						score_hash[[temp_row_index,temp_column_index]]=[player_id,score]
+					end
+					# found_piece = false
+					break
+				end
+				if direction2
+					temp_row_index=temp_row_index+1
+				else
+					temp_row_index=temp_row_index-1
+				end
+				if direction1
+					temp_column_index=temp_column_index+1
+				else
+					temp_column_index=temp_column_index-1
+				end
+			end
+		end
+	end
+
+	return score_hash
+end
+
 def format_board(board_array)
 
 	return_str = ""
@@ -195,5 +247,7 @@ board_array[1][2] = 1
 
 
 puts format_board(board_array)
-p compute_right_diagonal_up_score(board_array,player1)
-p compute_diagonal_up_score(board_array,player1,true)
+puts
+# p compute_vertical_score(board_array,player1)
+# p compute_diagonal_up_score(board_array,player1,true)
+p compute_diagonal_score(board_array,player1,false,false)
