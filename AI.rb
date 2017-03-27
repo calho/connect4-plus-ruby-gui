@@ -5,12 +5,59 @@ class AI
 
 	end
 
-	def compute_score(board_array, player_id)
+	# def common_loop_operations(row_index,column_index,player_self,player_id,enemy_id,score_counter)
+
+	# 	proc = Proc.new()
+	# 	{
+	# 		if board_array[row_index][column_index] != 0
+	# 			found_piece = true
+	# 		end
+
+	# 		if player_id == board_array[row_index][column_index] && player_self
+	# 			score_counter=score_counter+1
+
+	# 		end
+
+	# 		if player_id == board_array[row_index][column_index] && !player_self
+	# 			score_counter = 0
+	# 			player_self = true
+
+	# 		end
+
+	# 		if enemy_id == board_array[row_index][column_index] && player_self
+	# 			score_counter = 0
+	# 			player_self = false
+
+	# 		end
 
 
-	end
+	# 		if enemy_id == board_array[row_index][column_index] && !player_self
+	# 			score_counter=score_counter+1
+	# 		end
 
-	def compute_horizontal_score(board_array, player_id, enemy_id,direction)
+
+	# 		if board_array[row_index][column_index] == 0 && found_piece
+	# 			p board_array[row_index][column_index]
+	# 			id =(player_self)? player_id : enemy_id
+	# 			if score_counter == 0
+	# 				score_counter=1
+	# 			end
+	# 			score = score_counter*10 +((player_self)? 5 : 0)
+	# 			p id
+	# 			score_hash[[row_index,column_index]]=[id,score]
+	# 			found_piece = false
+	# 		end
+	# 	}
+
+	# end
+
+
+	def compute_horizontal_score(board_array,player,enemy,direction)
+
+		player_id = player.get_id
+		enemy_id = enemy.get_id
+		player_pattern = player.get_win_pattern
+		enemy_pattern = enemy.get_win_pattern
 
 		score_hash = Hash.new
 		board_array.each_with_index do |row , row_index|
@@ -20,31 +67,33 @@ class AI
 			found_piece = false
 			row=(direction)? row : row.reverse
 			p row
+			pattern_counter=0
 			row.each_with_index do |column, column_index|
 				c_index=(direction)? column_index : 6 - column_index
+
 				if board_array[row_index][c_index] != 0
 					found_piece = true
 				end
 
-				if player_id == board_array[row_index][c_index] && player_self == true
+				if player_pattern[score_counter] == board_array[row_index][c_index] && player_self
 					score_counter=score_counter+1
 
 				end
 
-				if player_id == board_array[row_index][c_index] && player_self == false
+				if player_pattern[score_counter] == board_array[row_index][c_index] && !player_self
 					score_counter = 0
 					player_self = true
 
 				end
 
-				if enemy_id == board_array[row_index][c_index] && player_self == true
+				if enemy_pattern[score_counter] == board_array[row_index][c_index] && player_self
 					score_counter = 0
 					player_self = false
 
 				end
 
 
-				if enemy_id == board_array[row_index][c_index] && player_self == false
+				if enemy_pattern[score_counter] == board_array[row_index][c_index] && !player_self
 					score_counter=score_counter+1
 				end
 
@@ -68,25 +117,134 @@ class AI
 
 
 
+
+
 	def compute_vertical_score(board_array, player_id, enemy_id)
 		# gravity makes this nice
 		score_hash = Hash.new
 
 		for column_index in 0..board_array[0].length-1
+			
+			player_self =true
+			found_piece = false
+			score_counter = 0
 			board_array.each_with_index do |row , row_index|
 				p board_array[row_index][column_index]
+
+				if board_array[row_index][column_index] != 0
+					found_piece = true
+				end
+
+				if player_id == board_array[row_index][column_index] && player_self
+					score_counter=score_counter+1
+
+				end
+
+				if player_id == board_array[row_index][column_index] && !player_self
+					score_counter = 0
+					player_self = true
+
+				end
+
+				if enemy_id == board_array[row_index][column_index] && player_self
+					score_counter = 0
+					player_self = false
+
+				end
+
+
+				if enemy_id == board_array[row_index][column_index] && !player_self
+					score_counter=score_counter+1
+				end
+
+
+				if board_array[row_index][column_index] == 0 && found_piece
+					p board_array[row_index][column_index]
+					id =(player_self)? player_id : enemy_id
+					if score_counter == 0
+						score_counter=1
+					end
+					score = score_counter*10 +((player_self)? 5 : 0)
+					p id
+					score_hash[[row_index,column_index]]=[id,score]
+					found_piece = false
+				end
+
 			end
 		end
 
+		return score_hash
+	end
 
+	def compute_right_diagonal_score(board_array,player_id,enemy_id)
+
+		score_hash = Hash.new
+		for row_index in 0..board_array.length-1
+			for column_index in 0..board_array[0].length-1
+				temp_row=row_index
+				temp_column=column_index
+
+				score_counter=0
+
+				player_self =true
+				found_piece = false
+
+				while (1)
+					# p temp_row
+					# p temp_column
+					board_value=board_array[temp_row][temp_column]
+
+					if board_array[temp_row][temp_column] != 0
+						found_piece = true
+					end
+					
+					if player_self && player_id==board_value
+						score_counter=score_counter+1
+					end
+
+					if player_self && enemy_id==board_value
+						score_counter=0
+						player_self = false
+					end					
+
+					if !player_self && enemy_id==board_value
+						score_counter=score_counter+1
+					end
+
+					if !player_self && player_id==board_value
+						score_counter=0
+						player_self = true
+					end
+
+					if board_value == 0 && found_piece
+						p board_value
+						id =(player_self)? player_id : enemy_id
+						if score_counter == 0
+							score_counter=1
+						end
+						score = score_counter*10 +((player_self)? 5 : 0)
+						p id
+						score_hash[[temp_row,temp_column]]=[id,score]
+						found_piece = false
+					end
+
+					temp_row=temp_row+1
+					temp_column=temp_column+1
+					
+					if temp_column >= board_array[0].length || temp_row >= board_array.length
+						break
+					end
+
+				end
+
+
+			end
+		end
 		return score_hash
 	end
 
 	def compute_left_diagonal_score
 
-	end
-
-	def compute_right_diagonal_score
 
 	end
 
@@ -94,8 +252,11 @@ class AI
 end
 ai = AI.new
 board_array = Array.new(6){Array.new(7,0)}
-board_array[0][0] = 2
+board_array[0][0] = 1
 board_array[0][1] = 1
 board_array[0][6] = 2
 board_array[1][0] = 1
+board_array[1][1] = 1
 p ai.compute_horizontal_score(board_array,1,2,true)
+# p ai.compute_vertical_score(board_array,1,2)
+# p ai.compute_right_diagonal_score(board_array,1,2)
