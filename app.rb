@@ -22,6 +22,11 @@ class App
         @window = @builder.get_object("window")
         @window.signal_connect("destroy") { Gtk.main_quit }
         @connect4grid = @builder.get_object("connect4grid")
+
+        # background = Gtk::Image.new :file => "board.png"
+
+        # @connect4grid.image = background
+
         # @game_over_dialog = Gtk::MessageDialog.new(:parent => nil, :flags => :destroy_with_parent,
         #                     :type => nil, :buttons_type => "Restart", :buttons_type => "Menu" 
         #                     :message => "Game Over")
@@ -51,6 +56,10 @@ class App
         @menu.signal_connect("clicked") do
             go_to_menu
         end
+
+        side_button1 = @builder.get_object("button42")
+        side_button2 = @builder.get_object("button43")
+        side_button3 = @builder.get_object("button44")
 
         @player_turn = @builder.get_object("player turn")
         @player_turn.label=("player1's turn")
@@ -119,12 +128,18 @@ class App
             generate_O_tokens.call
         end
 
-        @board_status = Array.new(42)
+        # @board_status = Array.new(42)
+
+        bg = Gdk::RGBA::new(63.0/255.0,72.0/255.0,204.0/255.0,1.0)
+        @window.override_background_color(0, bg)
 
         @array_of_buttons = Array.new
         add_button_to_array = Proc.new{|button| @array_of_buttons << button}
         set_button_function = Proc.new{ |i| button = @builder.get_object("button#{i}")
         	add_button_to_array.call(button)
+
+            # button.override_background_color(0, bg)
+
         	button.image = @array_of_board_pieces[i]
         	button.signal_connect("clicked") do
 

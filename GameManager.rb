@@ -57,9 +57,10 @@ class GameManager
 		# p @player_list[@last_player_id-1]
 		# p @player_list.length
 		player_id=@player_list[@last_player_id-1].get_id
-		@board_model.add_piece(player_id,button_id)
+		if @board_model.add_piece(player_id,button_id)
 
-		@last_player_id= (@last_player_id==1)? 2:1
+			@last_player_id= (@last_player_id==1)? 2:1
+		end
 
 	end
 
