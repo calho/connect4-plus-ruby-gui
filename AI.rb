@@ -253,27 +253,4 @@ class AI
 
 end
 
-ai = AI.new(1)
-board_array = Array.new(6){Array.new(7,0)}
-player1 = Player.new(1,"J",[1,1,1,1])
 
-board_array[0][0] = 1
-# board_array[0][1] = 1
-# board_array[1][0] = 2
-# board_array[1][1] = 2
-# board_array[2][0] = 1
-# board_array[2][1] = 1
-# board_array[0][6] = 1
-# board_array[0][2] = 2
-# board_array[1][2] = 1
-# board_array[3][0] = 1
-
-puts ai.format_board(board_array)
-# ai.get_position(board_array,player1)
-ai.possible_moves(board_array)
-
-# puts format_board(board_array)
-# puts
-# p compute_vertical_score(board_array,player1)
-# p compute_horizontal_score(board_array,player1,true)
-# p compute_diagonal_score(board_array,player1,false,false)
