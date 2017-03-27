@@ -249,5 +249,5 @@ board_array[1][2] = 1
 puts format_board(board_array)
 puts
 # p compute_vertical_score(board_array,player1)
-# p compute_diagonal_up_score(board_array,player1,true)
-p compute_diagonal_score(board_array,player1,false,false)
+# p compute_horizontal_score(board_array,player1,true)
+# p compute_diagonal_score(board_array,player1,false,false)
