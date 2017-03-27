@@ -1,8 +1,8 @@
 
 class AI
 
-	def initialize
-
+	def initialize(difficulty_level)
+		@difficulty_level = difficulty_level
 	end
 
 	def compute_horizontal_score(board_array,player,direction)

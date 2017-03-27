@@ -1,8 +1,10 @@
 
 require 'observer'
+require 'test/unit'
+require_relative 'contracts'
 
 class BoardModel
-
+	include Test::Unit::Assertions
 	include Observable
 	def initialize()
 		@board_array = Array.new(6){Array.new(7,0)}
@@ -29,26 +31,33 @@ class BoardModel
 
 	def add_piece(player_id, button_id)
 		# observable
-
-		# pre
 		column = button_id%7
-		@board_array.each do |row|
-			if row[column]==0
-				row[column]=player_id
-				changed
-				notify_observers(Time.now)
-				return
+		old_column_checksum = @board_array.transpose[column].inject(0){|sum,x| sum + x }
+		begin
+			pre_add_piece(player_id, button_id, @board_array)
+			@board_array.each do |row|
+				if row[column]==0
+					row[column]=player_id
+					changed
+					notify_observers(Time.now)
+					post_add_piece{old_column_checksum < @board_array.transpose[column].inject(0){|sum,x| sum + x }}
+					return true
+				end
 			end
+		rescue
+			post_add_piece{old_column_checksum == @board_array.transpose[column].inject(0){|sum,x| sum + x }}
+			return false
 		end
 
 		#post 
 	end
 
 	def clear
-
+		pre_clear(@board_array)
 		@board_array = Array.new(6){Array.new(7,0)}
 		changed
 		notify_observers(Time.now)
+		post_clear(@board_array)
 	end
 
 
@@ -64,6 +73,7 @@ class BoardModel
 	# end
 
 	def check_for_winner(player)
+		pre_check_for_winner(player)
 		win_pattern=player.get_win_pattern
 		if horizontal_score_iterator(win_pattern) || vertical_score_iterator(win_pattern) || diagonal_right_check(win_pattern) || diagonal_left_check(win_pattern)
 			return true
