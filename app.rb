@@ -445,7 +445,9 @@ else
 		game_manager.set_player_list(playerList)
 		game_manager.set_board_model(board_model)
 		game_manager.set_game_type(game_mode)
-		p "ERROR"
+
+    else
+        p "ERRORsss"
 
 	end
 
