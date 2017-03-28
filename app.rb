@@ -96,10 +96,6 @@ class App
 
 	end
 
-	def on_button_press(button)
-		# puts "button #{button} pressed "
-	end
-
 	def update_board()
         one_board_status = @game_manager.get_board_array.reverse.flatten
 		one_board_status.each_with_index do |status, index|

@@ -35,7 +35,7 @@ class BoardModel
 		old_column_checksum = @board_array.transpose[column].inject(0){|sum,x| sum + x }
 		begin
 			# p "beforeeeeee"
-			pre_add_piece(player_id, button_id, @board_array)
+			pre_add_piece(player_id, button_id, @board_array, @rows, @columns)
 			# p "player id"
 			# p player_id
 			@board_array.each do |row|
@@ -44,14 +44,14 @@ class BoardModel
 					row[column]=player_id
 					changed
 					notify_observers(Time.now)
-					post_add_piece{old_column_checksum < @board_array.transpose[column].inject(0){|sum,x| sum + x }}
-					p "passed add piece"
+					post_add_piece(@board_array, @rows, @columns){old_column_checksum < @board_array.transpose[column].inject(0){|sum,x| sum + x }}
+					# p "passed add piece"
 					return true
 				end
 			end
 		rescue
 
-			post_add_piece{old_column_checksum == @board_array.transpose[column].inject(0){|sum,x| sum + x }}
+			post_add_piece(@board_array, @rows, @columns){old_column_checksum == @board_array.transpose[column].inject(0){|sum,x| sum + x }}
 			# p "its false"
 			return false
 		end
@@ -60,11 +60,11 @@ class BoardModel
 	end
 
 	def clear
-		pre_clear(@board_array)
+		pre_clear(@board_array, @rows, @columns)
 		@board_array = Array.new(6){Array.new(7,0)}
 		changed
 		notify_observers(Time.now)
-		post_clear(@board_array)
+		post_clear(@board_array, @rows, @columns)
 	end
 
 
@@ -80,15 +80,18 @@ class BoardModel
 	# end
 
 	def check_for_winner(player)
-		pre_check_for_winner(player)
+		pre_check_for_winner(player, @board_array, @rows, @columns)
 		win_pattern=player.get_win_pattern
 		if horizontal_score_iterator(win_pattern) || vertical_score_iterator(win_pattern) || diagonal_right_check(win_pattern) || diagonal_left_check(win_pattern)
+			post_score(@board_array, @rows, @columns)
 			return true
 		end
+		post_score(@board_array, @rows, @columns)
 		return false
 	end
 
 	def horizontal_score_iterator(win_pattern)
+		pre_score(win_pattern)
 		@board_array.each do |row|
 			counter = 0
 			row.each do |column|
@@ -96,6 +99,7 @@ class BoardModel
 					counter=counter+1
 					if counter == win_pattern.length
 						# p "horizontal winner"
+						post_score(@board_array, @rows, @columns)
 						return true
 					end
 				else
@@ -103,10 +107,12 @@ class BoardModel
 				end
 			end
 		end
+		post_score(@board_array, @rows, @columns)
 		return false
 	end
 
 	def vertical_score_iterator(win_pattern)
+		pre_score(win_pattern)
 		for column_index in 0..@columns-1
 			counter = 0
 			@board_array.each do |row|
@@ -114,6 +120,7 @@ class BoardModel
 					counter=counter+1
 					if counter == win_pattern.length
 						# p "vertical winner"
+						post_score(@board_array, @rows, @columns)
 						return true
 					end
 				else
@@ -121,11 +128,12 @@ class BoardModel
 				end
 			end
 		end
+		post_score(@board_array, @rows, @columns)
 		return false
 	end
 
 	def diagonal_right_check(win_pattern)
-
+		pre_score(win_pattern)
 		for row_index in 0..@rows-1
 			for column_index in 0..@columns-1
 				if @board_array[row_index][column_index] == win_pattern[0]
@@ -138,6 +146,7 @@ class BoardModel
 						counter = counter + 1
 						if counter == win_pattern.length
 							# p "diagonal winner"
+							post_score(@board_array, @rows, @columns)
 							return true
 						end
 
@@ -155,10 +164,12 @@ class BoardModel
 			end
 
 		end
+		post_score(@board_array, @rows, @columns)
 		return false
 	end
 
 	def diagonal_left_check(win_pattern)
+		pre_score(win_pattern)
 		for row_index in 0..@rows-1
 			for column_index in 0..@columns-1
 				if @board_array[row_index][column_index] == win_pattern[0]
@@ -171,6 +182,7 @@ class BoardModel
 						counter = counter + 1
 						if counter == win_pattern.length
 							# p "diagonal left winner"
+							post_score(@board_array, @rows, @columns)
 							return true
 						end
 
@@ -188,6 +200,7 @@ class BoardModel
 			end
 
 		end
+		post_score(@board_array, @rows, @columns)
 		return false
 	end
 end

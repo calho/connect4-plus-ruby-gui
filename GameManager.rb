@@ -15,6 +15,7 @@ class GameManager
 	@player_list
 	@last_player_id
 	@ai
+	@game_state
 	
 	def initialize()
 		@last_player_id=1
