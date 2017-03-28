@@ -222,24 +222,12 @@ class App
                 player1 = Player.new(1,"shade",[1,2,2,1])
                 player2=Player.new([2,1,1,2])
             end
-            # should take in difficulty level HARDCODED FOR NOW
-# <<<<<<< HEAD
-            # ai = AI.new(3)
-            # @game_manager.set_ai(ai)
+
 						ai = AI.new(@level)
             @game_manager.set_ai(ai)
-        # end
         		@playerList = PlayerList.new(player1,player2)
         		p @playerList.get_list
-# =======
-#             # ai = AI.new(@level)
-#             # @game_manager.set_ai(ai)
-#
-#             @playerList = PlayerList.new(player1,player2)
-#             p @playerList.get_list
-#
-#             # end
-# >>>>>>> 07488381bf69ee259f66f8f65cedbf69f0ed9b42
+
 
             @game_manager.set_player_list(@playerList)
             @game_manager.set_board_model(@board_model)
