@@ -24,7 +24,7 @@ class App
         @window.signal_connect("destroy") { Gtk.main_quit }
         @connect4grid = @builder.get_object("connect4grid")
 
-		@window.set_default_size(798, 690)        
+		@window.set_default_size(798, 690)
 
         @startMenu.show()
 
@@ -60,8 +60,8 @@ class App
         @ottoToot = @builder.get_object("OTTO&TOOT").set_active(false)
 
         @game_mode = "original"
-     
-        @builder.get_object("Start").signal_connect("clicked") do 
+
+        @builder.get_object("Start").signal_connect("clicked") do
         	if (@singleP.active? or @twoP.active?)
         		# @startMenu.hide
         		# @window.show
@@ -72,12 +72,12 @@ class App
                 end
                 @level = 0
                 self.run
-                    
+
         	end
         end
 
-
         generate_tokens
+
 
         bg = Gdk::RGBA::new(63.0/255.0,72.0/255.0,204.0/255.0,1.0)
         @window.override_background_color(0, bg)
@@ -93,14 +93,14 @@ class App
 
         Gtk.main()
 
-        
+
 	end
 
-	def on_button_press(button) 
-		puts "button #{button} pressed "
+	def on_button_press(button)
+		# puts "button #{button} pressed "
 	end
 
-	def update_board() 
+	def update_board()
         one_board_status = @game_manager.get_board_array.reverse.flatten
 		one_board_status.each_with_index do |status, index|
 			button = @array_of_buttons[index]
@@ -119,12 +119,12 @@ class App
                     player2_token = @array_of_O_tokens[index]
                 end
 				button.image = player2_token
-            else 
+            else
                 board_piece = @array_of_board_pieces[index]
                 button.image = board_piece
 			end
 		end
-				
+
 	end
 
     def setup_buttons
@@ -204,7 +204,7 @@ class App
         @board_model = BoardModel.new()
         @board_model.add_observer(self)
         @game_manager  = GameManager.new
-        
+
         # if @original.active?
         if @twoP.active?
             if @game_mode == "original"
@@ -218,14 +218,14 @@ class App
             @window.show
 
             @playerList = PlayerList.new(player1,player2)
-            p @playerList.get_list
+            # p @playerList.get_list
 
             # end
 
             @game_manager.set_player_list(@playerList)
             @game_manager.set_board_model(@board_model)
             @game_manager.set_game_type(@game_type)
-        
+
         elsif @singleP.active?
             if @level == 0
                 create_ai_menu
@@ -238,19 +238,19 @@ class App
                 player1 = Player.new(1,"shade",[1,2,2,1])
                 player2=Player.new([2,1,1,2])
             end
-            # should take in difficulty level HARDCODED FOR NOW      
-            ai = AI.new(@level)
+
+
+			ai = AI.new(@level)
             @game_manager.set_ai(ai)
-        # end
-            @playerList = PlayerList.new(player1,player2)
-            p @playerList.get_list
+        	@playerList = PlayerList.new(player1,player2)
+        	# p @playerList.get_list
 
 
             @game_manager.set_player_list(@playerList)
             @game_manager.set_board_model(@board_model)
             @game_manager.set_game_type(@game_type)
 
-            p @level
+            # p @level
             if @level != 0
                 @startMenu.hide
                 @window.show
@@ -271,7 +271,7 @@ class App
             @game_manager.AI_play()
         end
         update_board()
-        puts button_id
+        # puts button_id
 
     end
 
@@ -297,12 +297,12 @@ class App
         label = Gtk::Label.new("please select difficulty")
         ai_menu.child.add(label)
 
-        
+
 
         button_reaction = Proc.new{ |level|
             @level = level
             ai_menu.hide
-            p @level
+            # p @level
         }
 
 
@@ -322,7 +322,7 @@ class App
         end
 
         ai_menu.set_window_position :center
-        ai_menu.show_all 
+        ai_menu.show_all
         ai_menu.run
 
     end
@@ -342,15 +342,16 @@ class App
         dialog.signal_connect("response") do |widget, response|
             case response
             when 1
-                p "RESTART"
+                # p "RESTART"
                 run
                 # @game_manager.set_game_state(false)
+
                 @game_manager.clear_board
                 update_board
                 dialog.hide
                 @connect4grid.sensitive=(true)
             when 2
-                p "MENU"
+                # p "MENU"
                 go_to_menu{dialog.hide}
 
             end
@@ -360,23 +361,22 @@ class App
 
         @connect4grid.sensitive=(false)
         dialog.show_all
-        # dialog.run
 
     end
 
-    def update(time)        
+    def update(time)
         if @game_manager.check_winner
             @game_manager.set_game_state(false)
             game_over_window(@game_manager.check_winner)
-            # update_board
-            p "won"
+
+            # p "won"
         else
             if @game_manager.get_last_player_id == 1
                 @player_turn.label=("player1's turn")
             elsif @game_manager.get_last_player_id == 2 and @twoP.active?
                 @player_turn.label=("player2's turn")
             end
-            p "no one wins yet"
+            # p "no one wins yet"
         #draw
         end
     end

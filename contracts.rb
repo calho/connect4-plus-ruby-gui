@@ -14,7 +14,7 @@ end
 
 def pre_clear(board_array)
 	assert((defined? board_array) != nil, 'no board array was created')
-end	
+end
 
 def post_clear(board_array)
 	assert(board_array.all? {|row| row.all? {|column| column == 0}}, 'board failed to clear')
