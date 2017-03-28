@@ -262,9 +262,10 @@ class App
         if @twoP.active?
             @game_manager.turn(button_id)
         elsif @singleP.active? and @game_manager.get_game_state
-            @game_manager.turn(button_id)
-            update_board()
-            @game_manager.AI_play()
+            if @game_manager.turn(button_id)
+                update_board()
+                @game_manager.AI_play()
+            end
         end
         update_board()
         # puts button_id

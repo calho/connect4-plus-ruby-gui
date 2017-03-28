@@ -49,7 +49,34 @@ end
 
 def invariant_Manager( board_model, player_list, last_player_id, ai, game_state)
 	assert_respond_to(board_model, :add_piece, 'invalid board model')
-	assert_respond_to(player_list, :get_list, 'invalid player_list')
+	assert_respond_to(player_list, :at, 'invalid player_list')
 	assert(last_player_id >= 0, 'negative last player id')
-	
+	# assert_respond_to(ai, :possible_moves, 'invalid ai')
+	assert((defined? game_state) != nil, 'game state not defined' )
 end
+
+def pre_turn(button_id, board_model, player_list, last_player_id, ai, game_state)
+	assert(button_id >= 0, 'negative button id')
+	invariant_Manager(board_model, player_list, last_player_id, ai, game_state)
+end
+
+def post_turn(board_model, player_list, last_player_id, ai, game_state)
+	invariant_Manager(board_model, player_list, last_player_id, ai, game_state)
+end
+
+def pre_AI_play(board_model, player_list, last_player_id, ai, game_state)
+	invariant_Manager(board_model, player_list, last_player_id, ai, game_state)
+end
+
+def post_AI_play(board_model, player_list, last_player_id, ai, game_state)
+	invariant_Manager(board_model, player_list, last_player_id, ai, game_state)
+end
+
+def pre_check_winner(board_model, player_list, last_player_id, ai, game_state)
+	invariant_Manager(board_model, player_list, last_player_id, ai, game_state)
+end
+
+def post_check_winner(board_model, player_list, last_player_id, ai, game_state)
+	invariant_Manager(board_model, player_list, last_player_id, ai, game_state)
+end
+

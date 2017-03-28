@@ -36,6 +36,7 @@ class BoardModel
 		begin
 			# p "beforeeeeee"
 			pre_add_piece(player_id, button_id, @board_array, @rows, @columns)
+			# p "passed 1"
 			# p "player id"
 			# p player_id
 			@board_array.each do |row|
@@ -44,13 +45,15 @@ class BoardModel
 					row[column]=player_id
 					changed
 					notify_observers(Time.now)
+					# p "test1"
 					post_add_piece(@board_array, @rows, @columns){old_column_checksum < @board_array.transpose[column].inject(0){|sum,x| sum + x }}
 					# p "passed add piece"
 					return true
 				end
 			end
-		rescue
+		rescue #Test::Unit::AssertionFailedError
 
+			# p "test2"
 			post_add_piece(@board_array, @rows, @columns){old_column_checksum == @board_array.transpose[column].inject(0){|sum,x| sum + x }}
 			# p "its false"
 			return false
