@@ -142,7 +142,9 @@ class AI
 					score = 10**(score_counter+1)
 
 					if row_index==0|| board_array[row_index-1][c_index] != 0
-						score_hash[[row_index,c_index]]=score
+						if score_counter == player_pattern.length-1 || player_pattern[score_counter + 1]==player_id
+							score_hash[[row_index,c_index]]=score
+						end
 					end
 					found_piece = false
 				end
@@ -179,7 +181,9 @@ class AI
 					score = 10**(score_counter+1)
 
 					if row_index==0|| board_array[row_index-1][column_index] != 0
-						score_hash[[row_index,column_index]]=score
+						if score_counter == player_pattern.length-1 || player_pattern[score_counter + 1]==player_id
+							score_hash[[row_index,column_index]]=score
+						end
 					end
 					found_piece = false
 				end
@@ -223,10 +227,12 @@ class AI
 						# end
 						# score = (score_counter+1)*10
 						score = 10**(score_counter+1)
-						
+
 						if !score_hash.key?([temp_row_index,temp_column_index]) 	|| score_hash[[temp_row_index,temp_column_index]]<score
 							if temp_row_index==0|| board_array[temp_row_index-1][temp_column_index] != 0
-								score_hash[[temp_row_index,temp_column_index]]=score
+								if score_counter == player_pattern.length-1 || player_pattern[score_counter + 1]==player_id
+									score_hash[[temp_row_index,temp_column_index]]=score
+								end
 							end
 						end
 						# found_piece = false
