@@ -425,8 +425,8 @@ else
 		game_manager.set_game_type(game_mode)
 
 	elsif players == 1
-
-		level = STDIN.gets "difficulty level? 1 , 2 or 3?"
+        p "difficulty level? 1 , 2 or 3?"
+		level = STDIN.gets.chomp
 		if game_mode == "C"
 				player1=Player.new(1,"jayfeather",[1,1,1,1])
 				player2=Player.new([2,2,2,2])
