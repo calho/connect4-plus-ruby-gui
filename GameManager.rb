@@ -17,7 +17,7 @@ class GameManager
 	@ai
 	@game_state
 	@last_player_id = 0
-	
+
 	def initialize()
 		@current_player_id=1
 		@game_state = true
@@ -47,6 +47,10 @@ class GameManager
 
 	def get_board_array
 		@board_model.get_array
+	end
+
+	def get_board_model
+		return @board_model
 	end
 
 	def get_last_player_id
