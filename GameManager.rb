@@ -48,6 +48,10 @@ class GameManager
 		@board_model.get_array
 	end
 
+	def get_board_model
+		return @board_model
+	end
+
 	def get_last_player_id
 		@last_player_id
 	end

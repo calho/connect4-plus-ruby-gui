@@ -138,7 +138,7 @@ class App
 
             end
         }
-        
+
         for i in 0..41
             set_button_function.call(i)
         end
@@ -147,7 +147,7 @@ class App
 
     def generate_tokens
         @array_of_red_tokens = Array.new
-        generate_red_token = Proc.new{ red_token = Gtk::Image.new :file => "red_token.png" 
+        generate_red_token = Proc.new{ red_token = Gtk::Image.new :file => "red_token.png"
             @array_of_red_tokens << red_token
             }
 
@@ -156,7 +156,7 @@ class App
         end
 
         @array_of_yellow_tokens = Array.new
-        generate_yellow_token = Proc.new{ yellow_token = Gtk::Image.new :file => "yellow_token.png" 
+        generate_yellow_token = Proc.new{ yellow_token = Gtk::Image.new :file => "yellow_token.png"
             @array_of_yellow_tokens << yellow_token
             }
 
@@ -174,7 +174,7 @@ class App
         end
 
         @array_of_T_tokens = Array.new
-        generate_T_tokens = Proc.new{ t_token = Gtk::Image.new :file => "T_token.png" 
+        generate_T_tokens = Proc.new{ t_token = Gtk::Image.new :file => "T_token.png"
             @array_of_T_tokens << t_token
             }
 
@@ -226,7 +226,7 @@ class App
             if @level == 0
                 create_ai_menu
             end
-            
+
             if @game_mode == "original"
                 player1=Player.new(1,"jayfeather",[1,1,1,1])
                 player2=Player.new([2,2,2,2])
@@ -236,9 +236,9 @@ class App
             end
 
 
-			ai = AI.new(@level)
+						ai = AI.new(@level)
             @game_manager.set_ai(ai)
-        	@playerList = PlayerList.new(player1,player2)
+        		@playerList = PlayerList.new(player1,player2)
         	# p @playerList.get_list
 
 
@@ -270,6 +270,7 @@ class App
         # puts button_id
 
     end
+
 
 
     def go_to_menu
@@ -378,8 +379,86 @@ class App
     end
 
 
+
+
 end
 
+		def turn_front_end_two(row,column,players,game_manager)
+			button_id = row * 7 + column
+				if players == 2
+						game_manager.turn(button_id)
+				elsif players==1 and game_manager.get_game_state
+						game_manager.turn(button_id)
 
-app = App.new
+						game_manager.AI_play()
+				end
+
+				# puts button_id
+
+		end
+if ARGV.length == 0
+	app  App.new
+else
+	print "How many players 1 or 2? Please Type: "
+	players = STDIN.gets.chomp.to_i
+	print "Game mode? Type \"C\" for original, \"T\" for otto and toot"
+	game_mode = STDIN.gets.chomp
+	board_model = BoardModel.new()
+	# board_model.add_observer(self)
+	game_manager  = GameManager.new
+	if players == 2
+		if game_mode == "C"
+				player1 = Player.new(1,"jayfeather",[1,1,1,1])
+				player2 = Player.new(2,"shade",[2,2,2,2])
+		elsif game_mode == "T"
+				player1 = Player.new(1,"jayfeather",[1,2,2,1])
+				player2 = Player.new(2,"shade",[2,1,1,2])
+		end
+		playerList = PlayerList.new(player1,player2)
+		# p @playerList.get_list
+
+		# end
+
+		game_manager.set_player_list(playerList)
+		game_manager.set_board_model(board_model)
+		game_manager.set_game_type(game_mode)
+
+	elsif players == 1
+
+		level = gets "difficulty level? 1 , 2 or 3?"
+		if game_mode == "C"
+				player1=Player.new(1,"jayfeather",[1,1,1,1])
+				player2=Player.new([2,2,2,2])
+		elsif game_mode == "T"
+				player1 = Player.new(1,"shade",[1,2,2,1])
+				player2=Player.new([2,1,1,2])
+		end
+
+
+		ai = AI.new(level)
+		game_manager.set_ai(ai)
+		playerList = PlayerList.new(player1,player2)
+	# p @playerList.get_list
+
+
+		game_manager.set_player_list(playerList)
+		game_manager.set_board_model(board_model)
+		game_manager.set_game_type(game_mode)
+		p "ERROR"
+
+	end
+
+	while true
+		print "row? (0,6)"
+		row = STDIN.gets.chomp.to_i
+		print "columns? (0,7)"
+		column = STDIN.gets.chomp.to_i
+		turn_front_end_two(row,column,players,game_manager)
+		puts game_manager.get_board_model
+		if game_manager.check_winner
+			p "Winner"
+			break
+		end
+	end
+end
 # app.run
