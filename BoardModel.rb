@@ -34,12 +34,12 @@ class BoardModel
 		column = button_id%7
 		old_column_checksum = @board_array.transpose[column].inject(0){|sum,x| sum + x }
 		begin
-			p "beforeeeeee"
+			# p "beforeeeeee"
 			pre_add_piece(player_id, button_id, @board_array)
-			p "player id"
-			p player_id
+			# p "player id"
+			# p player_id
 			@board_array.each do |row|
-				p row[column]
+				# p row[column]
 				if row[column]==0
 					row[column]=player_id
 					changed
@@ -50,11 +50,11 @@ class BoardModel
 			end
 		rescue
 			post_add_piece{old_column_checksum == @board_array.transpose[column].inject(0){|sum,x| sum + x }}
-			p "its false"
+			# p "its false"
 			return false
 		end
 
-		#post 
+		#post
 	end
 
 	def clear
@@ -93,7 +93,7 @@ class BoardModel
 				if column == win_pattern[counter]
 					counter=counter+1
 					if counter == win_pattern.length
-						p "horizontal winner"
+						# p "horizontal winner"
 						return true
 					end
 				else
@@ -111,7 +111,7 @@ class BoardModel
 				if row[column_index] == win_pattern[counter]
 					counter=counter+1
 					if counter == win_pattern.length
-						p "vertical winner"
+						# p "vertical winner"
 						return true
 					end
 				else
@@ -123,23 +123,23 @@ class BoardModel
 	end
 
 	def diagonal_right_check(win_pattern)
-		
+
 		for row_index in 0..@rows-1
 			for column_index in 0..@columns-1
 				if @board_array[row_index][column_index] == win_pattern[0]
 					temp_row=row_index
 					temp_column=column_index
-					check_value=win_pattern[0] 
+					check_value=win_pattern[0]
 					counter=0
 
 					while (check_value==win_pattern[counter])
 						counter = counter + 1
 						if counter == win_pattern.length
-							p "diagonal winner"
+							# p "diagonal winner"
 							return true
 						end
 
-	
+
 						temp_row = temp_row + 1
 						temp_column = temp_column + 1
 						if temp_column >= @columns || temp_row >= @rows
@@ -147,7 +147,7 @@ class BoardModel
 						end
 
 						check_value=@board_array[temp_row][temp_column]
-						
+
 					end
 				end
 			end
@@ -162,17 +162,17 @@ class BoardModel
 				if @board_array[row_index][column_index] == win_pattern[0]
 					temp_row=row_index
 					temp_column=column_index
-					check_value=win_pattern[0] 
+					check_value=win_pattern[0]
 					counter=0
 
 					while (check_value==win_pattern[counter])
 						counter = counter + 1
 						if counter == win_pattern.length
-							p "diagonal left winner"
+							# p "diagonal left winner"
 							return true
 						end
 
-	
+
 						temp_row = temp_row + 1
 						temp_column = temp_column - 1
 						if temp_column < 0 || temp_row >= @rows
@@ -180,7 +180,7 @@ class BoardModel
 						end
 
 						check_value=@board_array[temp_row][temp_column]
-						
+
 					end
 				end
 			end

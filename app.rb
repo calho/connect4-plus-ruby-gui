@@ -155,7 +155,7 @@ class App
 	end
 
 	def on_button_press(button)
-		puts "button #{button} pressed "
+		# puts "button #{button} pressed "
 	end
 
 	def update_board()
@@ -204,7 +204,7 @@ class App
             @window.show
 
             @playerList = PlayerList.new(player1,player2)
-            p @playerList.get_list
+            # p @playerList.get_list
 
             # end
 
@@ -226,14 +226,14 @@ class App
 						ai = AI.new(@level)
             @game_manager.set_ai(ai)
         		@playerList = PlayerList.new(player1,player2)
-        		p @playerList.get_list
+        		# p @playerList.get_list
 
 
             @game_manager.set_player_list(@playerList)
             @game_manager.set_board_model(@board_model)
             @game_manager.set_game_type(@game_type)
 
-            p @level
+            # p @level
             if @level != 0
                 @startMenu.hide
                 @window.show
@@ -254,7 +254,7 @@ class App
             @game_manager.AI_play()
         end
         update_board()
-        puts button_id
+        # puts button_id
 
     end
 
@@ -285,7 +285,7 @@ class App
         button_reaction = Proc.new{ |level|
             @level = level
             ai_menu.hide
-            p @level
+            # p @level
         }
 
 
@@ -325,13 +325,13 @@ class App
         dialog.signal_connect("response") do |widget, response|
             case response
             when 1
-                p "RESTART"
+                # p "RESTART"
                 @game_manager.clear_board
                 update_board
                 dialog.hide
                 @connect4grid.sensitive=(true)
             when 2
-                p "MENU"
+                # p "MENU"
                 go_to_menu{dialog.hide}
 
             end
@@ -345,14 +345,14 @@ class App
         if @game_manager.check_winner
             game_over_window(@game_manager.check_winner)
 
-            p "won"
+            # p "won"
         else
             if @game_manager.get_last_player_id == 1
                 @player_turn.label=("player1's turn")
             elsif @game_manager.get_last_player_id == 2
                 @player_turn.label=("player2's turn")
             end
-            p "no one wins yet"
+            # p "no one wins yet"
         #draw
         end
     end

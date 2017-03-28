@@ -24,7 +24,7 @@ class GameManager
 	def set_game_type(game_type)
 		@game_type = game_type
 	end
-	
+
 	def set_board_model(board_model)
 		@board_model = board_model
 	end
@@ -58,7 +58,7 @@ class GameManager
 		player_id=@player_list[@last_player_id-1].get_id
 		# p @board_model.get_array
 		if @board_model.add_piece(player_id,button_id)
-			p "GETTING HERE"
+			# p "GETTING HERE"
 			@last_player_id= (@last_player_id==1)? 2:1
 		end
 		# p "turn"
@@ -72,12 +72,12 @@ class GameManager
 		enemy_index = (@last_player_id==1)? 2:1
 		enemy_player = @player_list[enemy_index-1]
 		position=@ai.get_position(@board_model.get_array,@player_list[@last_player_id-1],enemy_player)
-		p "position"
-		p position
+		# p "position"
+		# p position
 		button_id = position[0]*7+position[1]
-		p button_id
+		# p button_id
 		# sleep 1
-		p "RIGHT BEFORE"
+		# p "RIGHT BEFORE"
 		turn(button_id)
 
 

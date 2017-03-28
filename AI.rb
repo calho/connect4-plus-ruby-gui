@@ -19,7 +19,6 @@ class AI
 			end
 
 		end
-		p hash
 		return hash
 	end
 
@@ -35,13 +34,13 @@ class AI
 		hash7=compute_diagonal_score(board_array,player,false,false)
 		totalHash=Hash.new
 
-		totalHash=totalHash.merge(hash1){|k,v1,v2| v1+v2+21}
-		totalHash=totalHash.merge(hash2){|k,v1,v2| v1+v2+21}
-		totalHash=totalHash.merge(hash3){|k,v1,v2| v1+v2+21}
-		totalHash=totalHash.merge(hash4){|k,v1,v2| v1+v2+21}
-		totalHash=totalHash.merge(hash5){|k,v1,v2| v1+v2+21}
-		totalHash=totalHash.merge(hash6){|k,v1,v2| v1+v2+21}
-		totalHash=totalHash.merge(hash7){|k,v1,v2| v1+v2+21}
+		totalHash=totalHash.merge(hash1){|k,v1,v2| v1+v2}
+		totalHash=totalHash.merge(hash2){|k,v1,v2| v1+v2}
+		totalHash=totalHash.merge(hash3){|k,v1,v2| v1+v2}
+		totalHash=totalHash.merge(hash4){|k,v1,v2| v1+v2}
+		totalHash=totalHash.merge(hash5){|k,v1,v2| v1+v2}
+		totalHash=totalHash.merge(hash6){|k,v1,v2| v1+v2}
+		totalHash=totalHash.merge(hash7){|k,v1,v2| v1+v2}
 		return totalHash
 	end
 
@@ -69,11 +68,14 @@ class AI
 	def get_position(board_array,player,enemy)
 
 		my_hash = compute_my_scores(board_array,player)
-		p "player",player.get_id
 		enemy_hash = compute_enemy_scores(board_array,enemy)
-		p "enemy",enemy.get_id
+		p my_hash
+		p enemy_hash
+
 		totalHash= my_hash.merge(enemy_hash){|k,v1,v2| v1+v2}
+
 		p totalHash
+		p " "
 		best_move_key,best_move_value=totalHash.max_by{|k,v| v}
 		totalHash.delete(best_move_key)
 		second_move_key,second_move_value=totalHash.max_by{|k,v| v}
@@ -136,8 +138,8 @@ class AI
 					# if score_counter == 0
 					# 	score_counter=1
 					# end
-					score = (score_counter+1)*10
-					p score
+					# score = (score_counter+1)*10
+					score = 10**(score_counter+1)
 
 					if row_index==0|| board_array[row_index-1][c_index] != 0
 						score_hash[[row_index,c_index]]=score
@@ -173,7 +175,9 @@ class AI
 					# if score_counter == 0
 					# 	score_counter=1
 					# end
-					score = (score_counter+1)*10
+					# score = (score_counter+1)*10
+					score = 10**(score_counter+1)
+
 					if row_index==0|| board_array[row_index-1][column_index] != 0
 						score_hash[[row_index,column_index]]=score
 					end
@@ -217,7 +221,9 @@ class AI
 						# if score_counter == 0
 						# 	score_counter=1
 						# end
-						score = (score_counter+1)*10
+						# score = (score_counter+1)*10
+						score = 10**(score_counter+1)
+						
 						if !score_hash.key?([temp_row_index,temp_column_index]) 	|| score_hash[[temp_row_index,temp_column_index]]<score
 							if temp_row_index==0|| board_array[temp_row_index-1][temp_column_index] != 0
 								score_hash[[temp_row_index,temp_column_index]]=score
