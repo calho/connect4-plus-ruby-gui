@@ -2,19 +2,23 @@
 require_relative 'BoardModel'
 require_relative 'BoardController'
 require_relative 'Player'
+require 'test/unit'
+require_relative 'contracts'
+
 
 
 class GameManager
 
-
+	include Test::Unit::Assertions
 	@game_type
 	@board_model
 	@player_list
 	@last_player_id
 	@ai
+	
 	def initialize()
-
 		@last_player_id=1
+		@game_state = true
 	end
 
 	def set_ai(ai)
@@ -45,6 +49,14 @@ class GameManager
 
 	def get_last_player_id
 		@last_player_id
+	end
+
+	def get_game_state
+		@game_state
+	end
+
+	def set_game_state(state)
+		@game_state = state
 	end
 
 
@@ -78,7 +90,9 @@ class GameManager
 		p button_id
 		# sleep 1
 		p "RIGHT BEFORE"
-		turn(button_id)
+		if @game_state
+			turn(button_id)
+		end
 
 
 	end

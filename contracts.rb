@@ -1,17 +1,11 @@
 
 def pre_add_piece(player_id, button_id, board_array)
 	assert_respond_to(player_id, :round, 'invalid player_id')
-	p "p1"
 	assert_respond_to(button_id, :round, 'invalid button_id')
-	p "p2"
 	assert(button_id >= 0, 'giving a negative button id')
-	p "p3"
 	column_number = button_id%7
-	p "p4"
 	column = board_array.transpose[column_number]
-	p "p5"
 	assert((column.include? 0), 'column too full')
-	p "p6"
 end
 
 def post_add_piece()

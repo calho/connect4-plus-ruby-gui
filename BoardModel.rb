@@ -45,12 +45,14 @@ class BoardModel
 					changed
 					notify_observers(Time.now)
 					post_add_piece{old_column_checksum < @board_array.transpose[column].inject(0){|sum,x| sum + x }}
+					p "passed add piece"
 					return true
 				end
 			end
 		rescue
-			post_add_piece{old_column_checksum == @board_array.transpose[column].inject(0){|sum,x| sum + x }}
 			p "its false"
+			post_add_piece{old_column_checksum == @board_array.transpose[column].inject(0){|sum,x| sum + x }}
+			
 			return false
 		end
 
