@@ -89,7 +89,7 @@ class AI
 		# p second_move_value
 		case @difficulty_level
 
-			when 1 
+			when 1
 				if rand > 0.5
 					return best_move_key
 				end
@@ -99,7 +99,7 @@ class AI
 					return best_move_key
 				end
 				return second_move_value
-			when 3	
+			when 3
 				return best_move_key
 		end
 		return best_move_key
@@ -118,7 +118,7 @@ class AI
 			found_piece = false
 			# row=(direction)? row : row.reverse
 			row.each_with_index do |column, column_index|
-				#gets 
+				#gets
 				c_index=(direction)? column_index : 6 - column_index
 				if player_pattern[score_counter] == board_array[row_index][c_index]
 
@@ -133,10 +133,10 @@ class AI
 
 				if board_array[row_index][c_index] == 0 && found_piece
 					# p board_array[row_index][c_index]
-					if score_counter == 0
-						score_counter=1
-					end
-					score = score_counter*10
+					# if score_counter == 0
+					# 	score_counter=1
+					# end
+					score = (score_counter+1)*10
 					p score
 
 					if row_index==0|| board_array[row_index-1][c_index] != 0
@@ -170,10 +170,10 @@ class AI
 
 				if board_array[row_index][column_index] == 0 && found_piece
 					# p board_array[row_index][c_index]
-					if score_counter == 0
-						score_counter=1
-					end
-					score = score_counter*10
+					# if score_counter == 0
+					# 	score_counter=1
+					# end
+					score = (score_counter+1)*10
 					if row_index==0|| board_array[row_index-1][column_index] != 0
 						score_hash[[row_index,column_index]]=score
 					end
@@ -214,10 +214,10 @@ class AI
 					end
 
 					if board_array[temp_row_index][temp_column_index] == 0 && found_piece
-						if score_counter == 0
-							score_counter=1
-						end
-						score = score_counter*10
+						# if score_counter == 0
+						# 	score_counter=1
+						# end
+						score = (score_counter+1)*10
 						if !score_hash.key?([temp_row_index,temp_column_index]) 	|| score_hash[[temp_row_index,temp_column_index]]<score
 							if temp_row_index==0|| board_array[temp_row_index-1][temp_column_index] != 0
 								score_hash[[temp_row_index,temp_column_index]]=score
@@ -253,5 +253,3 @@ class AI
 	end
 
 end
-
-
