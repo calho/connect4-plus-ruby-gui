@@ -262,9 +262,10 @@ class App
         if @twoP.active?
             @game_manager.turn(button_id)
         elsif @singleP.active? and @game_manager.get_game_state
-            @game_manager.turn(button_id)
-            update_board()
-            @game_manager.AI_play()
+            if @game_manager.turn(button_id)
+                update_board()
+                @game_manager.AI_play()
+            end
         end
         update_board()
         # puts button_id
@@ -397,7 +398,7 @@ end
 
 		end
 if ARGV.length == 0
-	app  App.new
+	app  = App.new
 else
 	print "How many players 1 or 2? Please Type: "
 	players = STDIN.gets.chomp.to_i
